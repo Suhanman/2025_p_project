@@ -1,0 +1,47 @@
+server:
+  port: 10000
+
+jwt:
+  secret: "MySuperSecureSecretKey_ForStudyLinker_App_2025_AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJ"
+  expiration: 3600000   # 1 hour
+
+spring:
+  datasource:
+    url: jdbc:mariadb://mariadb-primary.c3kkm2iwaeig.ap-northeast-2.rds.amazonaws.com:3306/studydb
+    username: admin
+    password: admin1234!
+    driver-class-name: org.mariadb.jdbc.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+logging:
+  level:
+    root: INFO
+    com.study.study: DEBUG
+
+# 다른 서비스 호출용 설정 (study-service → user-service & notification-service)
+user-service:
+  base-url: http://user-service:10000
+
+notification-service:
+  base-url: http://notification-service:10000

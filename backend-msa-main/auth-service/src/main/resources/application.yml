@@ -1,0 +1,52 @@
+server:
+  port: 10000
+  
+
+user-service:
+  base-url: http://user-service:10000
+  
+
+jwt:
+  secret: "MySuperSecureSecretKey_ForStudyLinker_App_2025_AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJ"
+  expiration: 3600000
+  
+spring:
+  data:
+    redis:
+      host: my-redis-master.redis.svc.cluster.local
+      port: 6379
+      
+      # [수정] 위에서 찾은 비밀번호를 따옴표 안에 붙여넣으세요
+      password: mysecurepassword
+      
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: auth-service   # 서비스 식별용 태그(권장)
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
+
+
+# logging:
+#   level:
+#     # [핵심] 스프링 웹 처리 과정을 전부 찍어봄
+#     org.springframework.web: DEBUG
+#     org.springframework.web.servlet.DispatcherServlet: DEBUG
+#     # 컨트롤러 매핑 과정을 상세히 확인 (어떤 URL이 어떤 메서드랑 연결되는지)
+#     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
