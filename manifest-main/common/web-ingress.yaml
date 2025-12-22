@@ -1,0 +1,113 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: studylinker-main
+  namespace: webservice
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: studylinker
+    alb.ingress.kubernetes.io/group.order: "4"
+
+    alb.ingress.kubernetes.io/healthcheck-path: "/actuator/health"
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+
+    # === ALB 전체에 적용되는 옵션들 ===
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:390403881443:certificate/3ba9c39c-42d3-48b3-a395-7d5c628ee5ab
+    
+    # 🌟 3. HTTP 80 포트 리스너에 대한 리다이렉션 액션 정의 (80 포트로 오면 443으로 리다이렉트)
+    alb.ingress.kubernetes.io/actions.redirect-to-https: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: alb
+  rules:
+    - host: gachon.studylink.click
+      http:
+        paths:
+          # 👇 [추가됨] Auth 서비스 (10000번 포트)
+          # 구체적인 경로를 먼저 적어주는 것이 관례상 좋습니다.
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service    # service.yaml의 metadata.name
+                port:
+                  number: 10000  
+                       
+          - path: /api/notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service    # service.yaml의 metadata.name
+                port:
+                  number: 10000  
+
+          - path: /api/recommend
+            pathType: Prefix
+            backend:
+              service:
+                name: recommend-service    # service.yaml의 metadata.name
+                port:
+                  number: 10000 
+
+          - path: /api/users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service    
+                port:
+                  number: 10000
+
+          - path: /api/admin/users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service    
+                port:
+                  number: 10000
+                  
+          - path: /api/admin/notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service    
+                port:
+                  number: 10000
+                  
+          - path: /api/manners
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service    
+                port:
+                  number: 10000        
+
+          - path: /api/recommend
+            pathType: Prefix
+            backend:
+              service:
+                name: recommend-service    
+                port:
+                  number: 10000 
+
+          - path: /api/stats
+            pathType: Prefix
+            backend:
+              service:
+                name: stats-service    
+                port:
+                  number: 10000
+
+          - path: /api/system
+            pathType: Prefix
+            backend:
+              service:
+                name: system-service    
+                port:
+                  number: 10000  
+
+       

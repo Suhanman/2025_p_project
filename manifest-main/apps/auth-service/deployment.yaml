@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-container
+        image: nugulsuhan/auth-service:7474f1522452c53ca282c7f7f0795007c6d72635
+        
+        # 👇 [중요] 이 부분이 없으면 HPA 절대 안 됩니다!
+        resources:
+          requests:
+            cpu: "200m"     # 0.2 코어 (기준점)
+            memory: "128Mi"
+          limits:
+            cpu: "500m"     # 0.5 코어 (최대치)
+            memory: "256Mi"

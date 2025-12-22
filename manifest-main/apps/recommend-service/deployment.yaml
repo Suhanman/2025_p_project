@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommend-deployment
+  namespace: webservice
+  labels:
+    app: recommend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommend-service
+  template:
+    metadata:
+      labels:
+        app: recommend-service
+    spec:
+      containers:
+        - name: recommend-container
+          image: nugulsuhan/recommend-service:c9b958fdce73f92242ba735497da8cc0ed115d74
+          ports:
+            - containerPort: 10000

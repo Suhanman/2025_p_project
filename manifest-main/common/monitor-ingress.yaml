@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-grafana
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: studylinker      # studylinker-ingress와 동일
+    alb.ingress.kubernetes.io/group.order: "2"             # 두 번째
+    alb.ingress.kubernetes.io/target-type: instance              # studylinker와 맞추기
+    # 여기서는 scheme, cert, listen-ports, subnets 안 써도 됨 (그룹 리더에서 상속)
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:390403881443:certificate/3ba9c39c-42d3-48b3-a395-7d5c628ee5ab
+    
+    # 🌟 3. HTTP 80 포트 리스너에 대한 리다이렉션 액션 정의 (80 포트로 오면 443으로 리다이렉트)
+    alb.ingress.kubernetes.io/actions.redirect-to-https: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/healthcheck-path: /monitor/login
+    alb.ingress.kubernetes.io/success-codes: "200,302"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: gachon.studylink.click
+      http:
+        paths:
+          - path: /monitor
+            pathType: Prefix
+            backend:
+              service:
+                name: prom-stack-grafana   # 실제 서비스 이름 그대로
+                port:
+                  number: 80              # prom-stack-grafana Service의 포트

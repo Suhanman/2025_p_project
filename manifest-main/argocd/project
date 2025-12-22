@@ -1,0 +1,153 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: common-infra
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: common
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice  # 요청하신 대로 webservice로 지정
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # 이미 있어도 안전하게 유지하는 설정
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auth-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/auth-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: user-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/user-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: recommend-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/recommend-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stats-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/stats-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: system-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/system-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notification-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/studylinker/manifest.git
+    targetRevision: HEAD
+    path: apps/notification-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webservice
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+

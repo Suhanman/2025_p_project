@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-deployment
+  namespace: webservice
+  labels:
+    app: system-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: system-service
+  template:
+    metadata:
+      labels:
+        app: system-service
+    spec:
+      containers:
+        - name: system-container
+          image: nugulsuhan/system-service:376dea7ee4eb862f3fd4075e937b987a4f5e32d4
+          ports:
+            - containerPort: 10000

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: studylinker-front
+  namespace: webservice
+  labels:
+    app: studylinker-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: studylinker-web
+  template:
+    metadata:
+      labels:
+        app: studylinker-web
+    spec:
+      containers:
+        - name: frontend
+          image: nugulsuhan/p_frontend:9a129bddd272f56fd1290ce2d4ac7fb90ee3269c
+          ports:
+            - containerPort: 80
+          # 🌟 [수정 없음] volumeMounts는 container 스펙 내부에 정의되어야 합니다.
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/
+              readOnly: true
+
+      # 🌟🌟🌟 [수정됨] volumes는 spec 레벨에 정의되어야 합니다. (containers와 같은 레벨)
+      volumes:
+        - name: nginx-config-volume # volumeMounts의 name과 일치해야 함
+          configMap:
+            name: studylinker-front-nginx-config
+            items:
+              - key: default.conf
+                path: default.conf

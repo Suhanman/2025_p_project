@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: study-deployment
+spec:
+  selector:
+    matchLabels:
+      app: study-service
+  template:
+    metadata:
+      labels:
+        app: study-service
+    spec:
+      containers:
+      - name: study-container
+        image: nugulsuhan/auth-service:e4ade165140a55ff60e4c6b228b7f1274813bff0
+        
+        # 👇 [중요] 이 부분이 없으면 HPA 절대 안 됩니다!
+        resources:
+          requests:
+            cpu: "200m"     # 0.2 코어 (기준점)
+            memory: "128Mi"
+          limits:
+            cpu: "500m"     # 0.5 코어 (최대치)
+            memory: "256Mi"

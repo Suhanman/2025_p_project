@@ -1,0 +1,6 @@
+apiVersion: v2
+name: common-app           # [중요] 폴더 이름과 가급적 맞춰주세요
+description: Generic Microservice Chart
+type: application
+version: 0.1.0             # 차트 자체의 버전 (수정 시 올려주면 좋음)
+appVersion: "1.0.0"        # 기본 앱 버전 (큰 의미 없음, values에서 덮어쓰니까)

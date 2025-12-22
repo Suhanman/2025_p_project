@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-deployment
+  namespace: webservice
+  labels:
+    app: stats-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats-service
+  template:
+    metadata:
+      labels:
+        app: stats-service
+    spec:
+      containers:
+        - name: stats-container
+          image: nugulsuhan/stats-service:96ea9480bdcf01619d3c2d4b75cc7c8f981a3ed1
+          ports:
+            - containerPort: 10000

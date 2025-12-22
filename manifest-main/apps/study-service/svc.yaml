@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: study-service      # Ingress에서 backend.service.name으로 사용할 이름
+  namespace: webservice   # Deployment와 같은 네임스페이스
+spec:
+  type: NodePort          # AWS ALB (instance 모드) 사용 시 필수
+  selector:
+    app: study--service     # 👈 [중요] Deployment의 labels: app: auth-service 와 일치해야 함
+  ports:
+    - protocol: TCP
+      port: 10000         # Ingress가 접속할 포트 (다른 서비스들도 10000으로 통일 가능)
+      targetPort: 10000   # 👈 [중요] 실제 스프링부트 컨테이너가 열고 있는 포트
+      # nodePort: 3xxxx   # (비워두면 쿠버네티스가 알아서 랜덤 할당함)

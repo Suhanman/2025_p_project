@@ -1,0 +1,40 @@
+# 모든 서비스가 공유할 기본 설정
+destinationServer: https://kubernetes.default.svc
+project: default
+# 7개 서비스 리스트
+microservices:
+  - name: auth-service
+    namespace: webservice
+    image: nugulsuhan/auth-service
+    tag: efd07803f4ac2cbdc9cd271a4d8c45f676851355
+    port: 10000
+  - name: user-service
+    namespace: webservice
+    image: nugulsuhan/user-service
+    tag: 26961eafc737499963b8c787f45015a1ae843e85
+    port: 10000
+  - name: stats-service
+    namespace: webservice
+    image: nugulsuhan/stats-service
+    tag: 9d0dd1b34610d9d55b7eda128b68f31f9043d3e2
+    port: 10000
+  - name: notification-service
+    namespace: webservice
+    image: nugulsuhan/notification-service
+    tag: 79b753d68c281587609653838320bf2712dbec44
+    port: 10000
+  - name: system-service
+    namespace: webservice
+    image: nugulsuhan/system-service
+    tag: e51e1d0739d54c3874931175e648ee61413d262e
+    port: 10000
+  - name: recommend-service
+    namespace: webservice
+    image: nugulsuhan/recommend-service
+    tag: 9217eb869dd6cdba609228d3e306f34a9cf55664
+    port: 10000
+  - name: study-service
+    namespace: webservice
+    image: nugulsuhan/study-service
+    tag: a76408c2c7e917d78e9d48551ea1e4eef5c8cdc2
+    port: 10000
