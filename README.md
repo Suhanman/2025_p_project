@@ -125,7 +125,22 @@
   <img src="https://github.com/user-attachments/assets/2fcd1e55-a2f8-40f3-bfba-9b37c7a301cf" width="900" alt="Feature Overview"/>
 </p>
 
+
+
 <img width="1028" height="515" alt="image" src="https://github.com/user-attachments/assets/3787d760-16ac-4124-92ae-dac2b6840e76" />
+
+
+### 성능 지표 
+
+| 지표 | 목표 기준 | 수집 방법 | 달성 여부 |
+|---|---|---|---|
+| 응답시간(p95) | 1초 이하 | Prometheus | O |
+| CPU 사용률 | 80% 이하 | Node Exporter | O |
+| Memory 사용률 | 80% 이하 | cAdvisor | O |
+| Disk 사용률 | 70% 이하 | Node Exporter | O |
+| Pod 상태 | 100% Running | kube-state-metrics | O |
+| Pod 재시작 횟수 | 0~1회 | kube-state-metrics | O |
+
 
 
 
@@ -140,8 +155,12 @@
   <img src="https://github.com/user-attachments/assets/5613013f-d491-432c-9c03-8ca7c5d0bc54" width="900" alt="Infra Detail"/>
 </p>
 
+[프로젝트 Manifest CI/CD Repo](https://github.com/Suhanman/studylinker_manifest.git)
+
+
 
 ## 8) 기술 스택
+
 Front : React, Node.js, HTML, Css, React Router, Axios / Fetch API
 
 Backend : JAVA, Spring Boot, Spring Data JPA, MySql, Lombok, Redis
