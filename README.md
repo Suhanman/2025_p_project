@@ -109,7 +109,11 @@
   <img src="https://github.com/user-attachments/assets/e8c8ea64-d5b5-4ffa-b6ef-628dc0af9185" width="900" alt="Background 2"/>
 </p>
 
-1. Kuber
+- **Kubernetes 클러스터 구축을 통한 안정적인 MSA 환경의 서비스의 컨테이너 오케스트레이션**
+  
+- **명확한 NameSpace 분리 및 인프라의 문서화를 통한 운영표준화 구현**
+  
+- **pv/pvc 및 HPA 를 통한 고가용성 및 안정적인 대규모 트래픽 처리**
 
 
 
@@ -120,6 +124,10 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2fcd1e55-a2f8-40f3-bfba-9b37c7a301cf" width="900" alt="Feature Overview"/>
 </p>
+
+<img width="1028" height="515" alt="image" src="https://github.com/user-attachments/assets/3787d760-16ac-4124-92ae-dac2b6840e76" />
+
+
 
 ## 7) CI/CD 
 
@@ -138,4 +146,4 @@ Front : React, Node.js, HTML, Css, React Router, Axios / Fetch API
 
 Backend : JAVA, Spring Boot, Spring Data JPA, MySql, Lombok, Redis
 
-Infra : AWS, Docker, k8s, Helm, Terraform, Git, Argocd, Prometheus, Grafana, 
+Infra : AWS, Docker, k8s, Helm, Terraform, Git, Argocd, Prometheus, Grafana
