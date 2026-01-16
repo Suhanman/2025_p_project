@@ -24,12 +24,12 @@
 <p align="center">
   <a href="#-프로젝트-개요">프로젝트 개요</a> ·
   <a href="#-문제-정의--선정-배경">선정 배경</a> ·
-  <a href="#-핵심-기능">핵심 기능</a> ·
-  <a href="#-시스템-아키텍처">아키텍처</a> ·
-  <a href="#-기술-스택">기술 스택</a> ·
-  <a href="#-시작하기">시작하기</a> ·
+  <a href="#-핵심-기능">인프라 설계</a> ·
+  <a href="#-시스템-아키텍처">AWS 클라우드 아키텍처</a> ·
+  <a href="#-기술-스택">K8s 클러스터 아키텍쳐</a> ·
+  <a href="#-시작하기">모니터링</a> ·
   <a href="#-ci--cd--운영">CI/CD</a> ·
-  <a href="#-팀-구성--역할">팀</a>
+  <a href="#-팀-구성--역할">기술 스택</a>
 </p>
 
 ---
@@ -62,7 +62,7 @@
 
 ## 3) 인프라 설계
 
-> Cloud Native 방식을 준수한 인프라 설계
+> ### Cloud Native 방식을 준수한 인프라 설계
 
 - **MSA 기반 모듈 아키텍쳐**
   - 서비스 안정성과 확장성을 위한 MSA 구조
@@ -75,7 +75,7 @@
 
 
 
----
+
 
 
 ---
@@ -87,7 +87,12 @@
 </p>
 
 
-ㄴ
+- **웹/앱/DB의 분리 및 서브넷 분리를 통한 3-tier 아키텍쳐 준수**
+
+- **AWS의 7계층 로드밸런서인 ALB를 통한 안정적 라우팅 및 트래픽 분산**
+
+- **Bastion Host 기반의 접속 통제와 Security Group 정책으로 최소 권한 원칙을 적용해 기본 보안 수준을 확보**
+
 
 ### 인프라/운영 포인트(요약)
 - **컨테이너 오케스트레이션:** Kubernetes 기반 배포/확장
@@ -95,9 +100,6 @@
 - **캐싱/세션/성능:** Redis 적용 (예: 세션/캐시/빈번 조회 최적화)
 - **모니터링:** 지표/대시보드 구성으로 장애 탐지 및 운영 가시성 확보
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/5613013f-d491-432c-9c03-8ca7c5d0bc54" width="900" alt="Infra Detail"/>
-</p>
 
 ---
 
@@ -107,7 +109,7 @@
   <img src="https://github.com/user-attachments/assets/e8c8ea64-d5b5-4ffa-b6ef-628dc0af9185" width="900" alt="Background 2"/>
 </p>
 
-
+1. Kuber
 
 
 
@@ -125,4 +127,15 @@
   <img src="https://github.com/user-attachments/assets/e73fdc08-791e-4cbc-8240-392682f3ac6f" width="900" alt="Architecture"/>
 </p>
 
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5613013f-d491-432c-9c03-8ca7c5d0bc54" width="900" alt="Infra Detail"/>
+</p>
+
+
 ## 8) 기술 스택
+Front : React, Node.js, HTML, Css, React Router, Axios / Fetch API
+
+Backend : JAVA, Spring Boot, Spring Data JPA, MySql, Lombok, Redis
+
+Infra : AWS, Docker, k8s, Helm, Terraform, Git, Argocd, Prometheus, Grafana, 
