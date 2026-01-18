@@ -78,128 +78,85 @@ resource "aws_security_group" "bastion_sg" {
 
 
 
-# resource "aws_security_group" "eks_control_sg" {
-#   name        = "eks-control-sg"
-#   description = "Security group for EKS control plane"
-#   vpc_id      = var.vpc_id
-
-#   tags = {
-#     Name = "eks-control-sg"
-#   }
-# }
-
-# # Egress: Allow all outbound
-# resource "aws_security_group_rule" "eks_control_egress_all" {
-#   type              = "egress"
-#   from_port         = 0
-#   to_port           = 0
-#   protocol          = "-1"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = aws_security_group.eks_control_sg.id
-#   description       = "Allow all outbound"
-# }
-
-
-# Ingress: SSH
-
-# Egress: EKS API (443 → eks_control_sg)
-# resource "aws_security_group_rule" "bastion_egress_eks_api" {
-#   type                     = "egress"
-#   from_port                = 443
-#   to_port                  = 443
-#   protocol                 = "tcp"
-#   source_security_group_id = aws_security_group.eks_control_sg.id
-#   security_group_id        = aws_security_group.bastion_sg.id
-#   description              = "Allow EKS API access"
-# }
 
 
 
-# resource "aws_security_group_rule" "allow_eks_api_from_bastion" {
-#   type                     = "ingress"
-#   from_port                = 443
-#   to_port                  = 443
-#   protocol                 = "tcp"
-#   source_security_group_id = aws_security_group.bastion_sg.id
-#   security_group_id        = aws_security_group.eks_control_sg.id
-# }
+ //k3s 마스터 보안그룹
+ resource "aws_security_group" "k3s_master_sg" {
+   name        = "k3s-master-sg"
+   description = "Security group for k3s master node"
+   vpc_id      = var.vpc_id
 
-# //k3s 마스터 보안그룹
-# resource "aws_security_group" "k3s_master_sg" {
-#   name        = "k3s-master-sg"
-#   description = "Security group for k3s master node"
-#   vpc_id      = var.vpc_id
+   # SSH from bastion
+   ingress {
+     description      = "SSH from bastion"
+     from_port        = 22
+     to_port          = 22
+     protocol         = "tcp"
+     security_groups  = [aws_security_group.bastion_sg.id]
+   }
 
-#   # SSH from bastion
-#   ingress {
-#     description      = "SSH from bastion"
-#     from_port        = 22
-#     to_port          = 22
-#     protocol         = "tcp"
-#     security_groups  = [aws_security_group.bastion_sg.id]
-#   }
+   # egress: all
+   egress {
+     from_port   = 0
+     to_port     = 0
+     protocol    = "-1"
+     cidr_blocks = ["0.0.0.0/0"]
+   }
 
-#   # egress: all
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+   tags = {
+     Name = "k3s-master-sg"
+   }
+ }
 
-#   tags = {
-#     Name = "k3s-master-sg"
-#   }
-# }
+ resource "aws_security_group" "k3s_worker_sg" {
+   name        = "k3s-worker-sg"
+   description = "Security group for k3s worker nodes"
+   vpc_id      = var.vpc_id
 
-# resource "aws_security_group" "k3s_worker_sg" {
-#   name        = "k3s-worker-sg"
-#   description = "Security group for k3s worker nodes"
-#   vpc_id      = var.vpc_id
+   # SSH from bastion
+   ingress {
+     description      = "SSH from bastion"
+     from_port        = 22
+     to_port          = 22
+     protocol         = "tcp"
+     security_groups  = [aws_security_group.bastion_sg.id]
+   }
 
-#   # SSH from bastion
-#   ingress {
-#     description      = "SSH from bastion"
-#     from_port        = 22
-#     to_port          = 22
-#     protocol         = "tcp"
-#     security_groups  = [aws_security_group.bastion_sg.id]
-#   }
+   # egress: all
+   egress {
+     from_port   = 0
+     to_port     = 0
+     protocol    = "-1"
+     cidr_blocks = ["0.0.0.0/0"]
+   }
 
-#   # egress: all
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+   tags = {
+     Name = "k3s-worker-sg"
+   }
+ }
 
-#   tags = {
-#     Name = "k3s-worker-sg"
-#   }
-# }
+ # 🔄 worker → master : 모든 트래픽 허용
+ resource "aws_security_group_rule" "worker_to_master_all" {
+   type                     = "ingress"
+   description              = "All traffic from worker nodes to master"
+   from_port                = 0
+   to_port                  = 0
+   protocol                 = "-1"
+   source_security_group_id = aws_security_group.k3s_worker_sg.id
+   security_group_id        = aws_security_group.k3s_master_sg.id
+ }
 
-# # 🔄 worker → master : 모든 트래픽 허용
-# resource "aws_security_group_rule" "worker_to_master_all" {
-#   type                     = "ingress"
-#   description              = "All traffic from worker nodes to master"
-#   from_port                = 0
-#   to_port                  = 0
-#   protocol                 = "-1"
-#   source_security_group_id = aws_security_group.k3s_worker_sg.id
-#   security_group_id        = aws_security_group.k3s_master_sg.id
-# }
-
-# # 🔄 master → worker : 모든 트래픽 허용
-# resource "aws_security_group_rule" "master_to_worker_all" {
-#   type                     = "ingress"
-#   description              = "All traffic from master to worker nodes"
-#   from_port                = 0
-#   to_port                  = 0
-#   protocol                 = "-1"
-#   source_security_group_id = aws_security_group.k3s_master_sg.id
-#   security_group_id        = aws_security_group.k3s_worker_sg.id
-# }
+ # 🔄 master → worker : 모든 트래픽 허용
+ resource "aws_security_group_rule" "master_to_worker_all" {
+   type                     = "ingress"
+   description              = "All traffic from master to worker nodes"
+   from_port                = 0
+   to_port                  = 0
+   protocol                 = "-1"
+   source_security_group_id = aws_security_group.k3s_master_sg.id
+   security_group_id        = aws_security_group.k3s_worker_sg.id
+ }
 
 
 
@@ -252,34 +209,7 @@ resource "aws_security_group" "bastion_sg" {
 
 
 
-# 마스터 노드 보안그룹 시작
-# resource "aws_security_group" "master_node_sg" {
-#   name        = "master-node-sg"
-#   vpc_id      = var.vpc_id
 
-#   tags = {
-#     "Name" = "k8s-master-node-sg"
-#   }
-# }
-
-# resource "aws_security_group_rule" "cp_egress_all" {
-#   type              = "egress"
-#   from_port         = 0
-#   to_port           = 0
-#   protocol          = "-1"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = aws_security_group.master_node_sg.id
-# }
-
-
-# resource "aws_security_group_rule" "cp_ssh_from_bastion" {
-#   type                     = "ingress"
-#   from_port                = 22
-#   to_port                  = 22
-#   protocol                 = "tcp"
-#   security_group_id        = aws_security_group.master_node_sg.id
-#   source_security_group_id = aws_security_group.bastion_sg.id
-# }
 
 # # # 2) Kubernetes API (6443) 
 # resource "aws_security_group_rule" "cp_api_from_worker" {
@@ -463,4 +393,5 @@ resource "aws_security_group" "bastion_sg" {
 # #     protocol    = "-1"
 # #     cidr_blocks = ["0.0.0.0/0"]
 # #   }
+
 # # }
