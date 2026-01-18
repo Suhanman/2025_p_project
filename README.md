@@ -148,6 +148,9 @@
 
 <img width="1028" height="547" alt="image" src="https://github.com/user-attachments/assets/0c1d2fa6-99aa-4ce9-9080-cb3c23e8597f" />
 
+### Github Actions을 통한 CI + ArgoCD를 통한 CD의 구축
+
+Frontend / Backend / Infra Manifest 나뉘어진 3개의 Repo를 CI/CD를 통한 지속적 통합 및 배포 구현
 
 ### App of Apps 패턴 구현
 
