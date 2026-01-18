@@ -14,11 +14,7 @@
 </p>
 
 <p align="center">
-  <!-- 필요 시 배지 추가 -->
-  <!-- 예: 빌드/배포/라이선스/버전 -->
-  <!-- ![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white) -->
-  <!-- ![K8s](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white) -->
-  <!-- ![Terraform](https://img.shields.io/badge/Terraform-844FBA?logo=terraform&logoColor=white) -->
+(본 Repo는 프로젝트 종료 후 정리를 위한 Repo로 ReadMe의 끝부분에 실제 프로젝트 협업에 사용한 Repo 링크를 기술함)
 </p>
 
 <p align="center">
@@ -32,6 +28,8 @@
   <a href="#-팀-구성--역할">기술 스택</a>
 </p>
 
+
+
 ---
 
 ## 1) 프로젝트 개요
@@ -40,7 +38,7 @@
 - **목표:** 지역/관심사 기반 스터디 탐색 및 모집 과정의 비효율을 줄이고, 신뢰할 수 있는 스터디 참여 경험 제공
 - **기간:**  2025.12.02~ 2025.12.22
 - **팀원:**  전민지(팀장) , 박수한, 박지수, 김한수, 이호주
-- **본인 담당:** ` 인프라 서버 개발 및 배포, CI/CD 구축, 컨테이너 오케스트레이션. Iac, 모니터링. Redis 구축
+- **본인 담당:**  인프라 서버 개발 및 배포, CI/CD 구축, 컨테이너 오케스트레이션. Iac, 모니터링. Redis 구축
 
 
 ---
@@ -94,11 +92,7 @@
 - **Bastion Host 기반의 접속 통제와 Security Group 정책으로 최소 권한 원칙을 적용해 기본 보안 수준을 확보**
 
 
-### 인프라/운영 포인트(요약)
-- **컨테이너 오케스트레이션:** Kubernetes 기반 배포/확장
-- **CI/CD:** GitHub Actions 기반 자동 빌드·배포 파이프라인
-- **캐싱/세션/성능:** Redis 적용 (예: 세션/캐시/빈번 조회 최적화)
-- **모니터링:** 지표/대시보드 구성으로 장애 탐지 및 운영 가시성 확보
+
 
 
 ---
@@ -151,12 +145,15 @@
 </p>
 
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/5613013f-d491-432c-9c03-8ca7c5d0bc54" width="900" alt="Infra Detail"/>
-</p>
 
-[프로젝트 Manifest CI/CD Repo](https://github.com/Suhanman/studylinker_manifest.git)
+<img width="1028" height="547" alt="image" src="https://github.com/user-attachments/assets/0c1d2fa6-99aa-4ce9-9080-cb3c23e8597f" />
 
+
+### App of Apps 패턴 구현
+
+helm chart를 이용해 Root-app 아래에 Application이 매달린 형태인 app of apps 패턴으로 
+
+ArgoCD의 CI/CD를 구축함으로 일관화된 방식으로 배포/관리
 
 
 ## 8) 기술 스택
@@ -166,3 +163,9 @@ Front : React, Node.js, HTML, Css, React Router, Axios / Fetch API
 Backend : JAVA, Spring Boot, Spring Data JPA, MySql, Lombok, Redis
 
 Infra : AWS, Docker, k8s, Helm, Terraform, Git, Argocd, Prometheus, Grafana
+
+(협업 레포)
+[프로젝트 Manifest CI/CD Repo](https://github.com/Suhanman/studylinker_manifest.git)
+[프로젝트 Backend CI/CD Repo](https://github.com/studylinker/backend-msa.git)
+[프로젝트 Frontend CI/CD Repo](https://github.com/studylinker/frontend.git)
+
