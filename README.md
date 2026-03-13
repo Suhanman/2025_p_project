@@ -103,11 +103,11 @@
   <img src="https://github.com/user-attachments/assets/e8c8ea64-d5b5-4ffa-b6ef-628dc0af9185" width="900" alt="Background 2"/>
 </p>
 
-- **Kubernetes 클러스터 구축을 통한 안정적인 MSA 환경의 서비스의 컨테이너 오케스트레이션**
+- **Kubernetes 클러스터 구축을 통한 MSA 환경의 서비스의 컨테이너 오케스트레이션 구축 경험**
   
 - **명확한 NameSpace 분리 및 인프라의 문서화를 통한 운영표준화 구현**
   
-- **pv/pvc 및 HPA 를 통한 고가용성 및 안정적인 대규모 트래픽 처리**
+- **pv/pvc 및 HPA 를 통한 트래픽 테스트 수행**
 
 
 
